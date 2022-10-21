@@ -7,10 +7,14 @@
 */
 
 #pragma once
+
 #ifndef _Warping_
 #define _Warping_
+
 #include "Hough.h"
-#include<Eigen/Dense>
+
+#undef Success
+#include <Eigen/Dense>
 
 class Warping {
 private:
