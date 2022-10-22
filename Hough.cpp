@@ -45,13 +45,21 @@ Hough::Hough(char* filePath) {
 	hough_space = CImg<double>(360, distance(w, h), 1, 1, 0);
 
 	rgb2gray();
+#ifdef INTERACTIVE
 	gray_img.blur(BLUR_SIGMA).display();// .save("dataset1/blur.bmp");
+#endif
 	getGradient();
+#ifdef INTERACTIVE
 	gradients.display();// .save("dataset1/gradient.bmp");
+#endif
 	houghTransform();
+#ifdef INTERACTIVE
 	hough_space.display();// .save("dataset1/hough_space.bmp");
+#endif
 	getHoughEdges();
+#ifdef INTERACTIVE
 	hough_space.display();// .save("dataset1/hough_space2.bmp");
+#endif
 	getLines();
 	getCorners();
 	orderCorners();
@@ -115,7 +123,7 @@ void Hough::houghTransform() {
 void Hough::getHoughEdges() {
 	int maxVal = hough_space.max();
 	int threshold = floor(maxVal / Q);
-	std::cout << maxVal << " " << threshold << std::endl;
+	//std::cout << maxVal << " " << threshold << std::endl;
 	cimg_forXY(hough_space, angle, rho) {
 		int val = hough_space(angle, rho);
 		if (val < threshold || rho == 0) {
@@ -338,7 +346,7 @@ void Hough::displayCornersAndLines() {
 		lines[i].x1, lines[i].y1, color_red);
 		marked_img.draw_circle(lines[i].x0, lines[i].y0, 5, color_yellow);
 		marked_img.draw_circle(lines[i].x1, lines[i].y1, 5, color_yellow);
-
+#if 0
 		// print
 		if (lines[i].dist_o > 0) {
 			std::cout << "Line " << i << ": x = " << lines[i].dist_o << std::endl;
@@ -351,5 +359,9 @@ void Hough::displayCornersAndLines() {
 		std::cout << "Two end points of line " << i << ": (" << lines[i].x0 <<
 			", " << lines[i].y0 << "), (" << lines[i].x1 <<
 			", " << lines[i].y1 << ")" << std::endl;
+#else
+		std::cout << lines[i].x0 << ", " << lines[i].y0 << ", "
+                  << lines[i].x1 << ", " << lines[i].y1 << std::endl;
+#endif
 	}
 }

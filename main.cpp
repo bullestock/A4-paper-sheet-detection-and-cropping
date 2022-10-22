@@ -15,14 +15,15 @@ int main(int argc, char **argv) {
 
 	for (int i = 1; i < argc; ++i) {
 		strncpy(inPath, argv[i], NAME_MAX - 1);
-		sprintf(outPath, "/tmp/output-%02d.jpg", i);
-		sprintf(outPath2, "/tmp/output_A4-%02d.jpg", i);
+		sprintf(outPath, "output-%02d.jpg", i);
+		sprintf(outPath2, "output_A4-%02d.jpg", i);
 
 		Hough hough(inPath);
+		hough.getMarkedImg().save(outPath);
+#if 0
 		Warping Warping(hough);
-		
-		hough.getMarkedImg().display().save(outPath);
-		Warping.getCroppedImg().display().save(outPath2);
+		Warping.getCroppedImg().save(outPath2);
+#endif
 	}
 	return 0;
 }
